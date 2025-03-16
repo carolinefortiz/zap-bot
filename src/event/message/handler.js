@@ -1,5 +1,5 @@
 const handler = (message) => {
-  client.sendMessage(message.from, "Não atendo no momento");
+  client.sendMessage(message.from, "No momento não estou disponível");
 };
 
 module.exports = handler;
