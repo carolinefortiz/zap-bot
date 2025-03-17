@@ -1,0 +1,34 @@
+{
+  "chat": {
+    "cycle": {
+      "limit": 28800000
+    }
+  },
+  "menu": {
+    "title": "*Bem vindo a Vince Beauty Distribuidora*\n",
+    "subtitle": "_Digite o número da opção desejada:_\n",
+    "otherSubtitle": "_Selecione uma das opções abaixo:_\n",
+    "items": {
+      "1": {
+        "step": "1️⃣ - Informações sobre revenda",
+        "message": "No momento não estamos atendendo nesta modalidade."
+      },
+      "2": {
+        "step": "2️⃣ - Catálogo para pedidos",
+        "message": "Acesse o link do catálogo para realizar o pedido:\nhttps://meucatalogo.app/distribuidoravincebeauty."
+      },
+      "3": {
+        "step": "3️⃣ - Pedido de reposição",
+        "message": "Se a reposição for de até 10 itens, por favor, envie o pedido por escrito ou um print de cada produto.\n\nAcima de 10 itens, somente pedidos via catálogo, pelo link:\nhttps://meucatalogo.app/distribuidoravincebeauty."
+      },
+      "4": {
+        "step": "4️⃣ - Dados para pagamento",
+        "message": "- Chave Pix: 51982443531\n- Para: Caroline Fagundes Ortiz\n- Instituição: Nubank"
+      },
+      "5": {
+        "step": "5️⃣ - Outros assuntos",
+        "message": "Em breve iremos atendê-lo."
+      }
+    }
+  }
+}

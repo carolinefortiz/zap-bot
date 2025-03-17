@@ -136,4 +136,4 @@ dist
 .pnp.*
 
 # bot session files
-.wwebjs_cache/
+.wwebjs_*/
