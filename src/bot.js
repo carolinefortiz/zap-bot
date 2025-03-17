@@ -3,7 +3,10 @@ const messageHandler = require("./event/message/handler");
 const qrCodeHandler = require("./event/qr-code/handler");
 const readyHandler = require("./event/ready/handler");
 
-const client = new Client({ authStrategy: new LocalAuth() });
+const client = new Client({
+  authStrategy: new LocalAuth(),
+  puppeteer: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
+});
 
 client.once("ready", () => readyHandler(client));
 client.on("qr", (qrCode) => qrCodeHandler(client, qrCode));
