@@ -8,8 +8,8 @@ const client = new Client({
   puppeteer: { headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] },
 });
 
-client.once("ready", () => readyHandler(client));
-client.on("qr", (qrCode) => qrCodeHandler(client, qrCode));
-client.on("message", (message) => messageHandler(client, message));
+client.once("ready", async () => readyHandler(client));
+client.on("qr", async (qr) => qrCodeHandler(client, qr));
+client.on("message", async (message) => messageHandler(client, message));
 
 client.initialize();

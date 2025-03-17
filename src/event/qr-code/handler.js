@@ -1,12 +1,8 @@
-const qrcode = require("qrcode");
+const qrCode = require("qrcode");
 
-const handler = async (_, qrCode) => {
-  try {
-    await qrcode.toFile("./qrcode.png", qrCode);
-    console.log("QR Code saved as qrcode.png");
-  } catch (err) {
-    console.error(err);
-  }
+const handler = async (_, qr) => {
+  await qrCode.toFile("./qr-code.png", qr);
+  console.log("O QR Code foi gerado com sucesso!");
 };
 
 module.exports = handler;
