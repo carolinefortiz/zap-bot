@@ -2,7 +2,7 @@
   "name": "zap-bot",
   "version": "1.0.0",
   "description": "Chatbot para Whatsapp",
-  "main": "bot.js",
+  "main": "src/bot.js",
   "scripts": {
     "dev": "nodemon ."
   },
