@@ -1,7 +1,7 @@
-const { generate } = require("qrcode-terminal");
+const qrCodeTerminal = require("qrcode-terminal");
 
 const handler = (_, qrCode) => {
-  generate(qrCode, { small: true });
+  qrCodeTerminal.generate(qrCode, { small: true });
 };
 
 module.exports = handler;
