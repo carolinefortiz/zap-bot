@@ -1,7 +1,7 @@
 {
   "chat": {
     "cycle": {
-      "limit": 20000
+      "limit": 14400000
     }
   },
   "menu": {

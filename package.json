@@ -4,7 +4,8 @@
   "description": "Chatbot para Whatsapp",
   "main": "src/bot.js",
   "scripts": {
-    "dev": "nodemon ."
+    "dev": "nodemon .",
+    "start": "node ."
   },
   "author": "Jairo Ortiz",
   "dependencies": {
