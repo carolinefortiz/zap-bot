@@ -5,7 +5,7 @@ const readyHandler = require("./event/ready/handler");
 
 const client = new Client({
   authStrategy: new LocalAuth(),
-  puppeteer: { args: ["--no-sandbox", "--disable-setuid-sandbox"] },
+  puppeteer: { headless: true, args: ["--no-sandbox", "--disable-setuid-sandbox"] },
 });
 
 client.once("ready", () => readyHandler(client));
