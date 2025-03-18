@@ -5,7 +5,7 @@
   "main": "dist/bot.js",
   "scripts": {
     "dev": "nodemon src/bot.js",
-    "start": "node dist/bot.js",
+    "start": "node src/bot.js",
     "build": "esbuild --bundle --outfile=./dist/bot.js --platform=node --target=node22 --external:puppeteer ./src/bot.js"
   },
   "author": "Jairo Ortiz <j0rtiz@protonmail.ch>",
