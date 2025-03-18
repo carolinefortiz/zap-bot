@@ -2,11 +2,10 @@
   "name": "zap-bot",
   "version": "1.0.0",
   "description": "Chatbot para Whatsapp",
-  "main": "dist/bot.js",
+  "main": "src/bot.js",
   "scripts": {
-    "dev": "nodemon src/bot.js",
-    "start": "node src/bot.js",
-    "build": "esbuild --bundle --outfile=./dist/bot.js --platform=node --target=node22 --external:puppeteer ./src/bot.js"
+    "dev": "nodemon .",
+    "start": "node ."
   },
   "author": "Jairo Ortiz <j0rtiz@protonmail.ch>",
   "dependencies": {
@@ -14,7 +13,6 @@
     "whatsapp-web.js": "1.26.0"
   },
   "devDependencies": {
-    "esbuild": "0.25.1",
     "nodemon": "3.1.9"
   },
   "overrides": {
