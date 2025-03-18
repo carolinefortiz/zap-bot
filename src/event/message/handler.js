@@ -7,6 +7,11 @@ const handler = async (client, message) => {
   const data = message.body;
   const userId = message.from;
   const isChat = message.type === "chat";
+  const isGroup = message.from.includes("@g.us");
+
+  if (isGroup) {
+    return;
+  }
 
   if (!users.has(userId)) {
     users.set(userId, { time: now, wasSent: false, isSubmenu: false });
