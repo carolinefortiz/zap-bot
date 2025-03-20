@@ -1,15 +1,28 @@
 const { mainMenu, otherMenu, subMenu } = require("./menu");
 const { chat, menu, submenu } = require("../../../config/config.json");
+const { wait, history } = require("../../core");
 const users = new Map();
 
 const handler = async (client, message) => {
+  await wait(2000);
+
   const now = Date.now();
   const data = message.body;
   const userId = message.from;
+  const isMe = message.fromMe;
+  const isPtt = message.type === "ptt";
   const isChat = message.type === "chat";
+  const isValid = isPtt || isChat;
   const isGroup = message.from.includes("@g.us");
+  const isStatus = message.from.includes("status@broadcast");
 
-  if (isGroup) {
+  if (history.lastUserId === userId) {
+    return;
+  }
+
+  history.lastUserId = userId;
+
+  if (isMe || !isValid || isGroup || isStatus) {
     return;
   }
 

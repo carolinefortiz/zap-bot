@@ -7,7 +7,8 @@
   "menu": {
     "title": "*Bem vindo a Vince Beauty Distribuidora*\n",
     "subtitle": "_Digite o número da opção desejada:_\n",
-    "otherSubtitle": "_Selecione uma das opções abaixo:_\n",
+    "otherSubtitle": "_Resposta inválida! Por favor, selecione uma das opções abaixo:_\n",
+    "note": "\n_Nosso horário de atendimento é de segunda a sexta-feira, das 8h às 18h._",
     "items": {
       "1": {
         "step": "1️⃣ - Informações sobre revenda",
