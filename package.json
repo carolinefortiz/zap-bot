@@ -10,6 +10,7 @@
   "author": "Jairo Ortiz <j0rtiz@protonmail.ch>",
   "dependencies": {
     "qrcode": "1.5.4",
+    "table": "6.9.0",
     "whatsapp-web.js": "1.26.0"
   },
   "devDependencies": {
