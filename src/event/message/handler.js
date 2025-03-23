@@ -1,5 +1,5 @@
 const { buildMenu, getMenu } = require("./menu");
-const { wait, history } = require("../../core");
+const { wait } = require("../../core/time");
 const config = require("../../../config/config.json");
 const users = new Map();
 
@@ -37,14 +37,7 @@ const handler = async (client, message) => {
       sessionIsClosed: false,
       currentUserMenu: config.menu,
     });
-    history.lastUserId = null;
   }
-
-  if (history.lastUserId === userId) {
-    return chat.clearState();
-  }
-
-  history.lastUserId = userId;
 
   if (isMe || !isValid || isGroup || isStatus) {
     return chat.clearState();
