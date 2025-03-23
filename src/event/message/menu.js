@@ -1,7 +1,7 @@
 const buildMenu = (menu, error) => {
   return [
-    error ? null : menu.header,
-    error ? error : menu.subheader,
+    error ? null : menu.title,
+    error ? error : menu.header,
     menu.items?.map((item) => item.label).join("\n"),
     error ? null : menu.footer,
   ]
@@ -9,10 +9,10 @@ const buildMenu = (menu, error) => {
     .join("\n\n");
 };
 
-const getMenu = (menu, choice) => {
-  const selectedItem = menu.items.find((item) => item.id === choice);
+const getMenu = (menu, selectedOption) => {
+  const selectedItem = menu.items?.find((item) => item.id === selectedOption);
   if (!selectedItem) return { error: menu.error };
-  if (selectedItem.menu) return { menu: selectedItem.menu };
+  if (selectedItem.menu) return { submenu: selectedItem.menu };
   if (selectedItem.messages) return { messages: selectedItem.messages };
   return null;
 };

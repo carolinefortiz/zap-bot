@@ -5,8 +5,8 @@
     }
   },
   "menu": {
-    "header": "*Bem vindo a Vince Beauty Distribuidora*",
-    "subheader": "_Digite o número da opção desejada:_",
+    "title": "*Bem vindo a Vince Beauty Distribuidora*",
+    "header": "_Digite o número da opção desejada:_",
     "footer": "_Nosso horário de atendimento é de segunda a sexta-feira, das 8h às 18h._",
     "error": "_Opção inválida! Por favor, selecione uma das opções abaixo:_",
     "items": [
