@@ -1,12 +1,11 @@
 const { buildMenu, getMenu } = require("./menu");
 const { wait, history } = require("../../core");
-const { chat, menu } = require("../../../config/config.json");
+const config = require("../../../config/config.json");
 const users = new Map();
 
 const handler = async (client, message) => {
-  // await wait(2000);
-
   const now = Date.now();
+  const chat = await client.getChatById(message.from);
   const data = message.body;
   const userId = message.from;
   const isMe = message.fromMe;
@@ -16,27 +15,31 @@ const handler = async (client, message) => {
   const isGroup = message.from.includes("@g.us");
   const isStatus = message.from.includes("status@broadcast");
 
-  // if (history.lastUserId === userId) {
-  //   return;
-  // }
+  await chat.sendStateTyping();
+  await wait(5000);
+  await chat.clearState();
 
-  // history.lastUserId = userId;
+  if (history.lastUserId === userId) {
+    return;
+  }
+
+  history.lastUserId = userId;
 
   if (isMe || !isValid || isGroup || isStatus) {
     return;
   }
 
   if (!users.has(userId)) {
-    users.set(userId, { time: now, wasSent: false, currentMenu: menu });
+    users.set(userId, { time: now, wasSent: false, currentMenu: config.menu });
   }
 
   const { time, wasSent, currentMenu } = users.get(userId);
   const diff = now - time;
   const isNew = diff === 0;
-  const isExpired = diff > chat.cycle.limit;
+  const isExpired = diff > config.chat.cycle.limit;
 
   if (isExpired) {
-    users.set(userId, { time: now, wasSent: false, currentMenu: menu });
+    users.set(userId, { time: now, wasSent: false, currentMenu: config.menu });
   }
 
   if (isNew || isExpired || (!isChat && !wasSent)) {
@@ -59,7 +62,7 @@ const handler = async (client, message) => {
   }
 
   if (result.messages) {
-    users.set(userId, { time, wasSent: true, currentMenu: menu });
+    users.set(userId, { time, wasSent: true, currentMenu: config.menu });
     for (const message of result.messages) {
       await client.sendMessage(userId, message);
     }
