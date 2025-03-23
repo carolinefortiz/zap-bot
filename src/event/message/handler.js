@@ -1,7 +1,7 @@
 const { buildMenu, getMenu } = require("./menu");
 const { wait } = require("../../core/time");
 const config = require("../../../config/config.json");
-const users = new Map();
+const users = {};
 
 const handler = async (client, message) => {
   const now = Date.now();
@@ -14,70 +14,45 @@ const handler = async (client, message) => {
   const isValid = isPtt || isChat;
   const isGroup = message.from.includes("@g.us");
   const isStatus = message.from.includes("status@broadcast");
-
-  await chat.sendStateTyping();
-  await wait(5000);
-
-  if (!users.has(userId)) {
-    users.set(userId, {
-      createdAt: now,
-      sessionIsClosed: false,
-      currentUserMenu: config.menu,
-    });
-  }
-
-  const { createdAt, sessionIsClosed, currentUserMenu } = users.get(userId);
-  const diff = now - createdAt;
+  users[userId] = users[userId] ?? { createdAt: now, sessionIsClosed: false, currentUserMenu: config.menu };
+  const diff = now - users[userId].createdAt;
   const isNew = diff === 0;
   const isExpired = diff > config.chat.cycle.limit;
 
   if (isExpired) {
-    users.set(userId, {
-      createdAt: now,
-      sessionIsClosed: false,
-      currentUserMenu: config.menu,
-    });
+    users[userId] = { createdAt: now, sessionIsClosed: false, currentUserMenu: config.menu };
   }
 
-  if (isMe || !isValid || isGroup || isStatus) {
+  if (isMe || !isValid || isGroup || isStatus || users[userId].sessionIsClosed) {
+    return;
+  }
+
+  await chat.sendStateTyping();
+  await wait(1000);
+
+  if (isNew || isExpired || isPtt) {
+    await client.sendMessage(userId, buildMenu(users[userId].currentUserMenu));
     return chat.clearState();
   }
 
-  if (isNew || isExpired || (!isChat && !sessionIsClosed)) {
-    await chat.clearState();
-    return client.sendMessage(userId, buildMenu(currentUserMenu));
-  }
-
-  if (!isExpired && sessionIsClosed) {
-    return chat.clearState();
-  }
-
-  const menu = getMenu(currentUserMenu, userMessage);
+  const menu = getMenu(users[userId].currentUserMenu, userMessage);
 
   if (menu.error) {
-    await chat.clearState();
-    return client.sendMessage(userId, buildMenu(currentUserMenu, menu.error));
+    await client.sendMessage(userId, buildMenu(users[userId].currentUserMenu, menu.error));
+    return chat.clearState();
   }
 
   if (menu.submenu) {
-    users.set(userId, {
-      createdAt,
-      sessionIsClosed,
-      currentUserMenu: menu.submenu,
-    });
-    await chat.clearState();
-    return client.sendMessage(userId, buildMenu(menu.submenu));
+    users[userId] = { ...users[userId], currentUserMenu: menu.submenu };
+    await client.sendMessage(userId, buildMenu(menu.submenu));
+    return chat.clearState();
   }
 
   if (menu.messages) {
-    users.set(userId, {
-      createdAt,
-      sessionIsClosed: true,
-      currentUserMenu: config.menu,
-    });
-    await chat.clearState();
+    users[userId] = { ...users[userId], sessionIsClosed: true, currentUserMenu: config.menu };
     for (const message of menu.messages) {
       await client.sendMessage(userId, message);
+      await chat.clearState();
     }
   }
 };
