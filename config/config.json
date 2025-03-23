@@ -45,7 +45,7 @@
               "id": "4",
               "label": "4️⃣ - Porto Alegre / RS",
               "menu": {
-                "header": "_Em qual bairro você reside?_",
+                "header": "_Em qual bairro?_",
                 "error": "_Opção inválida! Por favor, selecione uma das opções abaixo:_",
                 "items": [
                   {

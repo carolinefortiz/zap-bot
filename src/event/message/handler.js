@@ -18,16 +18,6 @@ const handler = async (client, message) => {
   await chat.sendStateTyping();
   await wait(5000);
 
-  if (history.lastUserId === userId) {
-    return chat.clearState();
-  }
-
-  history.lastUserId = userId;
-
-  if (isMe || !isValid || isGroup || isStatus) {
-    return chat.clearState();
-  }
-
   if (!users.has(userId)) {
     users.set(userId, {
       createdAt: now,
@@ -47,6 +37,17 @@ const handler = async (client, message) => {
       sessionIsClosed: false,
       currentUserMenu: config.menu,
     });
+    history.lastUserId = null;
+  }
+
+  if (history.lastUserId === userId) {
+    return chat.clearState();
+  }
+
+  history.lastUserId = userId;
+
+  if (isMe || !isValid || isGroup || isStatus) {
+    return chat.clearState();
   }
 
   if (isNew || isExpired || (!isChat && !sessionIsClosed)) {
