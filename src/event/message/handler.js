@@ -1,10 +1,10 @@
-const { mainMenu, otherMenu, subMenu } = require("./menu");
-const { chat, menu, submenu } = require("../../../config/config.json");
+const { buildMenu, getMenu } = require("./menu");
 const { wait, history } = require("../../core");
+const { chat, menu } = require("../../../config/config.json");
 const users = new Map();
 
 const handler = async (client, message) => {
-  await wait(2000);
+  // await wait(2000);
 
   const now = Date.now();
   const data = message.body;
@@ -16,60 +16,54 @@ const handler = async (client, message) => {
   const isGroup = message.from.includes("@g.us");
   const isStatus = message.from.includes("status@broadcast");
 
-  if (history.lastUserId === userId) {
-    return;
-  }
+  // if (history.lastUserId === userId) {
+  //   return;
+  // }
 
-  history.lastUserId = userId;
+  // history.lastUserId = userId;
 
   if (isMe || !isValid || isGroup || isStatus) {
     return;
   }
 
   if (!users.has(userId)) {
-    users.set(userId, { time: now, wasSent: false, isSubmenu: false });
+    users.set(userId, { time: now, wasSent: false, currentMenu: menu });
   }
 
-  const { time, wasSent, isSubmenu } = users.get(userId);
+  const { time, wasSent, currentMenu } = users.get(userId);
   const diff = now - time;
   const isNew = diff === 0;
   const isExpired = diff > chat.cycle.limit;
 
   if (isExpired) {
-    users.set(userId, { time: now, wasSent: false, isSubmenu: false });
+    users.set(userId, { time: now, wasSent: false, currentMenu: menu });
   }
 
   if (isNew || isExpired || (!isChat && !wasSent)) {
-    return client.sendMessage(userId, mainMenu);
+    return client.sendMessage(userId, buildMenu(currentMenu));
   }
 
   if (!isExpired && wasSent) {
     return;
   }
 
-  for (const item in menu.items) {
-    if (String(data) === String(item) && !isSubmenu) {
-      if (menu.items[item].message) {
-        users.set(userId, { time, wasSent: true, isSubmenu });
-        return client.sendMessage(userId, menu.items[item].message);
-      }
+  const result = getMenu(currentMenu, data);
 
-      if (menu.items[item].submenu) {
-        users.set(userId, { time, wasSent, isSubmenu: true });
-        return client.sendMessage(userId, subMenu);
-      }
-    }
+  if (result.error) {
+    return client.sendMessage(userId, buildMenu(currentMenu, result.error));
   }
 
-  for (const item in submenu.items) {
-    if (String(data) === String(item) && isSubmenu) {
-      users.set(userId, { time, wasSent: true, isSubmenu });
-      await client.sendMessage(userId, submenu.items[item].message);
-      return client.sendMessage(userId, submenu.items[item].otherMessage);
-    }
+  if (result.menu) {
+    users.set(userId, { time, wasSent, currentMenu: result.menu });
+    return client.sendMessage(userId, buildMenu(result.menu));
   }
 
-  return client.sendMessage(userId, otherMenu);
+  if (result.messages) {
+    users.set(userId, { time, wasSent: true, currentMenu: menu });
+    for (const message of result.messages) {
+      await client.sendMessage(userId, message);
+    }
+  }
 };
 
 module.exports = handler;

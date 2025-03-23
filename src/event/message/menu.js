@@ -1,9 +1,20 @@
-const { menu, submenu } = require("../../../config/config.json");
+const buildMenu = (menu, error) => {
+  return [
+    error ? null : menu.header,
+    error ? error : menu.subheader,
+    menu.items?.map((item) => item.label).join("\n"),
+    error ? null : menu.footer,
+  ]
+    .filter(Boolean)
+    .join("\n\n");
+};
 
-const items = Object.keys(menu.items).map((item) => menu.items[item].step);
-const subitems = Object.keys(submenu.items).map((item) => submenu.items[item].step);
-const mainMenu = [menu.title, menu.subtitle, ...items, menu.note].join("\n");
-const otherMenu = [menu.otherSubtitle, ...items].join("\n");
-const subMenu = [submenu.title, ...subitems].join("\n");
+const getMenu = (menu, choice) => {
+  const selectedItem = menu.items.find((item) => item.id === choice);
+  if (!selectedItem) return { error: menu.error };
+  if (selectedItem.menu) return { menu: selectedItem.menu };
+  if (selectedItem.messages) return { messages: selectedItem.messages };
+  return null;
+};
 
-module.exports = { mainMenu, otherMenu, subMenu };
+module.exports = { buildMenu, getMenu };
