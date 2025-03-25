@@ -19,8 +19,21 @@ const handler = async (client, message) => {
   const isNew = diff === 0;
   const isExpired = diff > config.chat.cycle.limit;
 
-  console.log(users[userId]);
-  console.log({ userId, userMessage, isMe, isPtt, isChat, isValid, isGroup, isStatus, isNew, isExpired });
+  if (!isMe) {
+    console.log({
+      userId,
+      userMessage,
+      isMe,
+      isPtt,
+      isChat,
+      isValid,
+      isGroup,
+      isStatus,
+      isNew,
+      isExpired,
+      ...users[userId],
+    });
+  }
 
   if (isExpired) {
     users[userId] = { createdAt: now, sessionIsClosed: false, currentUserMenu: config.menu };
