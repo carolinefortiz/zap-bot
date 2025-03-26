@@ -10,6 +10,6 @@ const client = new Client({
 
 client.once("ready", async () => readyHandler(client));
 client.on("qr", async (qr) => qrCodeHandler(client, qr));
-client.on("message_create", async (message) => messageHandler(client, message));
+client.on("message", async (message) => messageHandler(client, message));
 
 client.initialize();

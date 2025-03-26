@@ -58,7 +58,7 @@ const handler = async (client, message) => {
 
   if (menu.submenu) {
     users[userId] = { ...users[userId], currentUserMenu: menu.submenu };
-    await client.sendMessage(userId, buildMenu(menu.submenu));
+    await client.sendMessage(userId, buildMenu(users[userId].currentUserMenu));
     return chat.clearState();
   }
 
