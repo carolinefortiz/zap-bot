@@ -4,7 +4,7 @@ const config = require("../../../config/config.json");
 const users = {};
 
 const handler = async (client, message) => {
-  const now = Date.now();
+  const now = message.timestamp;
   const chat = await client.getChatById(message.from);
   const userId = message.from;
   const userMessage = message.body;
