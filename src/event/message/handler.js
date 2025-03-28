@@ -27,19 +27,7 @@ const handler = async (client, message) => {
     return;
   }
 
-  console.info({
-    userId,
-    userMessage,
-    isMe,
-    isPtt,
-    isChat,
-    isValid,
-    isGroup,
-    isStatus,
-    isNew,
-    isExpired,
-    ...users[userId],
-  });
+  console.info({ userId, userMessage, now, createdAt: users[userId].createdAt, diff, isNew });
 
   await chat.sendStateTyping();
   await wait(1000);
