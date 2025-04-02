@@ -2,6 +2,9 @@
   "chat": {
     "cycle": {
       "limit": 10800000
+    },
+    "user": {
+      "ignored": ["555198344466@c.us"]
     }
   },
   "menu": {

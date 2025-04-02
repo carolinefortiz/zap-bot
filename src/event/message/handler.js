@@ -16,12 +16,13 @@ const handler = async (client, message) => {
   const isGroup = message.from.includes("@g.us");
   const isStatus = message.from.includes("status@broadcast");
   const isExpired = timeDiff > config.chat.cycle.limit;
+  const isIgnored = config.chat.user.ignored.includes(userId);
 
   if (!users[userId] || isExpired) {
     users[userId] = { isNew: true, createdAt: now, sessionIsClosed: false, currentUserMenu: config.menu };
   }
 
-  if (isMe || !isValid || isGroup || isStatus || users[userId].sessionIsClosed) {
+  if (isMe || !isValid || isGroup || isStatus || isIgnored || users[userId].sessionIsClosed) {
     return;
   }
 
