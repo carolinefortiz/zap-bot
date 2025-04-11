@@ -6,7 +6,7 @@ const users = {};
 const handler = async (client, message) => {
   const now = Date.now();
   const chat = await client.getChatById(message.from);
-  const userId = message.from;
+  const userId = message.fromMe ? message.to : message.from;
   const timeDiff = now - (users[userId]?.createdAt ?? now);
   const userMessage = message.body;
   const isMe = message.fromMe;
@@ -19,10 +19,19 @@ const handler = async (client, message) => {
   const isIgnored = config.chat.user.ignored.includes(userId);
 
   if (!users[userId] || isExpired) {
-    users[userId] = { isNew: true, createdAt: now, sessionIsClosed: false, currentUserMenu: config.menu };
+    users[userId] = { isNew: true, isActive: true, createdAt: now, sessionIsClosed: false, currentUserMenu: config.menu };
   }
 
-  if (isMe || !isValid || isGroup || isStatus || isIgnored || users[userId].sessionIsClosed) {
+  if (userMessage === "!bot") {
+    if ((users[userId].isActive && !users[userId].sessionIsClosed) || !users[userId].isActive) {
+      users[userId].isActive = !users[userId].isActive;
+    }
+
+    users[userId] = { ...users[userId], isNew: true, sessionIsClosed: false };
+    await message.delete(true);
+  }
+
+  if (isMe || !isValid || isGroup || isStatus || isIgnored || !users[userId].isActive || users[userId].sessionIsClosed) {
     return;
   }
 
