@@ -1,7 +1,7 @@
 {
   "chat": {
     "cycle": {
-      "limit": 10800000
+      "limit": 28800000
     },
     "user": {
       "ignored": ["555198344466@c.us"]
@@ -124,9 +124,7 @@
       {
         "id": "2",
         "label": "2️⃣ - Catálogo para pedidos",
-        "messages": [
-          "Acesse o link do catálogo para realizar o pedido:\nhttps://meucatalogo.app/distribuidoravincebeauty."
-        ]
+        "messages": ["Acesse o link do catálogo para realizar o pedido:\nhttps://meucatalogo.app/distribuidoravincebeauty."]
       },
       {
         "id": "3",
